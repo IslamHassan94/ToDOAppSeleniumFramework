@@ -1,6 +1,8 @@
 package com.qacart.todo.pages;
 
 import com.qacart.todo.base.BasePage;
+import com.qacart.todo.config.Endpoints;
+import com.qacart.todo.utils.ConfigUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,6 +17,11 @@ public class NewTodoPage extends BasePage {
 
     @FindBy(css = "[data-testid=\"submit-newTask\"]")
     private WebElement submitNewTask;
+
+    public NewTodoPage load() {
+        driver.get(ConfigUtils.getInstance().getBaseUrl() + Endpoints.NEW_TODO_ENDPOINT);
+        return this;
+    }
 
     public TodoPage addNewTask(String todo) {
         newTodoInput.sendKeys(todo);

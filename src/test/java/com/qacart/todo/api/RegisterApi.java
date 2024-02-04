@@ -1,15 +1,19 @@
 package com.qacart.todo.api;
 
+import com.qacart.todo.config.Endpoints;
 import com.qacart.todo.objects.User;
+import com.qacart.todo.utils.ConfigUtils;
 import com.qacart.todo.utils.UserUtils;
-import io.restassured.http.Cookies;
+import io.restassured.http.Cookie;
 import io.restassured.response.Response;
+
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
 public class RegisterApi {
 
-    private Cookies restAssuredCookies;
+    private List<Cookie> cookies;
     private String accessToken;
     private String userId;
     private String firstName;
@@ -18,8 +22,8 @@ public class RegisterApi {
         return this.accessToken;
     }
 
-    public Cookies getRestAssuredCookies() {
-        return this.restAssuredCookies;
+    public List<Cookie> getCookies() {
+        return this.cookies;
     }
 
     public String getUserId() {
@@ -34,13 +38,13 @@ public class RegisterApi {
         User user = UserUtils.generateRandomUser();
         Response response =
                 given()
-                        .baseUri("https://todo.qacart.com")
+                        .baseUri(ConfigUtils.getInstance().getBaseUrl())
                         .header("Content-Type", "application/json")
                         .body(user)
                         .log()
                         .all()
                         .when()
-                        .post("/api/v1/users/register")
+                        .post(Endpoints.API_REGISTER_ENDPOINT)
                         .then()
                         .log()
                         .all()
@@ -49,7 +53,7 @@ public class RegisterApi {
         if (response.statusCode() != 201) {
             throw new RuntimeException("Something went wrong with the request");
         }
-        restAssuredCookies = response.detailedCookies();
+        cookies = response.detailedCookies().asList();
         accessToken = response.path("access_token");
         userId = response.path("userID");
         firstName = response.path("firstName");
