@@ -15,8 +15,6 @@ public class RegisterApi {
 
     private List<Cookie> cookies;
     private String accessToken;
-    private String userId;
-    private String firstName;
 
     public String getAccessToken() {
         return this.accessToken;
@@ -26,13 +24,6 @@ public class RegisterApi {
         return this.cookies;
     }
 
-    public String getUserId() {
-        return this.userId;
-    }
-
-    public String getFirstName() {
-        return this.firstName;
-    }
 
     public void register() {
         User user = UserUtils.generateRandomUser();
@@ -55,7 +46,5 @@ public class RegisterApi {
         }
         cookies = response.detailedCookies().asList();
         accessToken = response.path("access_token");
-        userId = response.path("userID");
-        firstName = response.path("firstName");
     }
 }
