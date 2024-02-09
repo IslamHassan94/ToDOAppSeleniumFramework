@@ -38,7 +38,7 @@ public class BaseTest {
 
     @AfterMethod
     public void tearDown(ITestResult result) {
-        // Add extra code for test github actions trigger
+        // Add extra code for test github actions trigger ggg
         String testCaseName = result.getMethod().getMethodName();
         File destFile = new File("target" + File.separator + "screenshots" + File.separator + testCaseName + ".png");
         takeScreenshot(destFile);
